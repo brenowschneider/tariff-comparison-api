@@ -1,1 +1,2 @@
-export * from './products-comparison.service';
+export * from './products-comparison';
+export * from './products-repository';
