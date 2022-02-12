@@ -1,9 +1,14 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
+    const defaultPortNumber = 3000;
     const app = await NestFactory.create(AppModule);
-    await app.listen(3000);
+    const logger = new Logger('Bootstrap');
+    await app.listen(defaultPortNumber, () => {
+        logger.log(`API listening on port ${defaultPortNumber}`);
+    });
 }
 
-bootstrap();
+void bootstrap();
