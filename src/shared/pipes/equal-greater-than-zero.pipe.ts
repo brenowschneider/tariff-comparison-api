@@ -1,8 +1,8 @@
-import { PipeTransform, Injectable, ArgumentMetadata, BadRequestException, HttpStatus } from '@nestjs/common';
+import { PipeTransform, Injectable, BadRequestException, HttpStatus } from '@nestjs/common';
 
 @Injectable()
 export class EqualGreaterThanZeroPipe implements PipeTransform {
-    public transform(value: string, metadata: ArgumentMetadata): number {
+    public transform(value: string): number {
         const valueAsNumber = parseInt(value);
 
         if (isNaN(valueAsNumber) || valueAsNumber < 0) {
