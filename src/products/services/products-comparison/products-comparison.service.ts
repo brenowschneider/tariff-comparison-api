@@ -18,18 +18,17 @@ export class ProductsComparisonService {
             return [];
         }
 
-        return productsToCompare
-            .map((product) => ({
-                tariffName: product.name,
-                annualCostsInEuros: product.calculateAnnualCostsInEuros(annualConsumption)
-            }))
-            .sort(this.sortProductsByCostsAscending);
+        return productsToCompare.map((product) => this.mapComparableProductToProductDto(product, annualConsumption)).sort(this.sortProductsByAnnualCostsAscending);
     }
 
-    // private sortProductsByCostsAscending(products: ProductDto[]) {
-    //     return products.sort((product1, product2) => product1.annualCostsInEuros - product2.annualCostsInEuros);
-    // }
-    private sortProductsByCostsAscending(productA: ProductDto, productB: ProductDto) {
+    private sortProductsByAnnualCostsAscending(productA: ProductDto, productB: ProductDto) {
         return productA.annualCostsInEuros - productB.annualCostsInEuros;
+    }
+
+    private mapComparableProductToProductDto(comparableProduct: ComparableProduct, annualConsumption: number): ProductDto {
+        return {
+            tariffName: comparableProduct.name,
+            annualCostsInEuros: comparableProduct.calculateAnnualCostsInEuros(annualConsumption)
+        };
     }
 }
