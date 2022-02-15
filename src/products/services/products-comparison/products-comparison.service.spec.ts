@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProductsComparisonService } from './products-comparison.service';
 import { BasicElectricityTariff, PackagedTariff } from '../../comparable-products';
+import { ApiLoggerService } from '../../../shared';
 
 const comparableProducts = [new BasicElectricityTariff(), new PackagedTariff()];
 
@@ -9,7 +10,13 @@ describe('ProductsComparisonService', () => {
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
-            providers: [ProductsComparisonService]
+            providers: [
+                ProductsComparisonService,
+                {
+                    provide: ApiLoggerService,
+                    useValue: console
+                }
+            ]
         }).compile();
 
         service = module.get<ProductsComparisonService>(ProductsComparisonService);
