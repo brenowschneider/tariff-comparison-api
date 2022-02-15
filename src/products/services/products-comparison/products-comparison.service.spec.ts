@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProductsComparisonService } from './products-comparison.service';
 import { BasicElectricityTariff, PackagedTariff } from '../../comparable-products';
@@ -14,7 +15,9 @@ describe('ProductsComparisonService', () => {
                 ProductsComparisonService,
                 {
                     provide: ApiLoggerService,
-                    useValue: console
+                    useValue: {
+                        error: () => {}
+                    }
                 }
             ]
         }).compile();
@@ -62,5 +65,15 @@ describe('ProductsComparisonService', () => {
                 annualCostsInEuros: 1400
             }
         ]);
+    });
+
+    it('should return an empty array when list of comparable products is invalid', () => {
+        const result = service.compareProductsBasedOnAnnualConsumption(undefined, 6000);
+        expect(result).toEqual([]);
+    });
+
+    it('should return an empty array when annual consumption is invalid', () => {
+        const result = service.compareProductsBasedOnAnnualConsumption(comparableProducts, -10);
+        expect(result).toEqual([]);
     });
 });
